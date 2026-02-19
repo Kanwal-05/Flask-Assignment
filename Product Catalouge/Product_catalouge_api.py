@@ -16,7 +16,7 @@ cursor = conn.cursor()
 def login_page():
     return render_template("Product_login.html")
 
-@app.route("/catalogue")
+@app.route("/catalouge")
 def catalogue():
     return render_template("Product_catalouge.html")
 
