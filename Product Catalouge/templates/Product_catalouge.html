@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <title>PRODUCT CATALOUGE</title>
+  </head>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background: linear-gradient(to right, #b4bbd1, #f4f7ff, #b4bbd1);
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .heading {
+      background-color: #1a237e;
+      margin-left: 30%;
+      margin-right: 30%;
+      border-radius: 12px;
+      justify-content: center;
+      text-align: center;
+      font-size: 32px;
+      font-weight: bold;
+      color: #ffffff;
+      margin-top: 30px;
+      letter-spacing: 1px;
+    }
+
+    .table {
+      display: flex;
+      justify-content: center;
+      margin: 40px 0;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 85%;
+      background-color: #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    thead {
+      background-color: #1a237e;
+      color: white;
+    }
+
+    th {
+      padding: 15px;
+      text-transform: uppercase;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    td {
+      padding: 14px;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    tr {
+      transition: all 0.3s ease;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f4f6ff;
+    }
+
+    tr:hover {
+      transform: scale(1.01);
+    }
+
+    button {
+      padding: 8px 14px;
+      border: none;
+      border-radius: 6px;
+      background-color: #3949ab;
+      color: white;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      margin-bottom: 5px;
+    }
+
+    .delbutton {
+      background-color: #a90000;
+      font-size: 13px;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .actions {
+      width: 85%;
+      margin: 25px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .add-section button {
+      padding: 10px 18px;
+      border-radius: 8px;
+      background-color: #1a237e;
+      font-weight: 500;
+    }
+
+    .popup-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+
+    .popup-content {
+      background: white;
+      width: 350px;
+      margin: 80px auto;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 95%;
+      padding: 8px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    select {
+      width: 100%;
+    }
+    textarea {
+      resize: none;
+      height: 80px;
+    }
+  </style>
+
+  <body>
+    <div class="heading">
+      <p>PRODUCT CATALOUGE</p>
+    </div>
+
+    <div class="actions">
+      <div style="width: 40%">
+        <select id="categoryFilter" onchange="filterProducts()">
+          <option value="all">All Categories</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Accessories">Accessories</option>
+          <option value="Home Appliences">Home Appliences</option>
+          <option value="Footwear">Footwear</option>
+          <option value="Clothing">Clothing</option>
+          <option value="Education">Education</option>
+          <option value="Kitchen Items">Kitchen Items</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="add-section">
+        <button onclick="openAdd()">+ Add Product</button>
+      </div>
+    </div>
+
+    <div class="table">
+      <table>
+        <thead>
+          <tr>
+            <th>Product Name</th>
+            <th>Product Description</th>
+            <th>Product Cost</th>
+            <th>Product Category</th>
+            <th>Product Quantity</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="popup-overlay" id="popup">
+      <div class="popup-content">
+        <h3 id="popupTitle">Add Product</h3>
+
+        <form id="productForm">
+          <input type="text" id="name" placeholder="Product Name" required />
+          <textarea
+            id="desc"
+            placeholder="Product Description"
+            required
+          ></textarea>
+          <input type="number" id="cost" placeholder="Product Cost" required />
+          <select name="category" id="category">
+            <label for="placeholder">Product Category</label>
+            <option value="Electronics">Electronics</option>
+            <option value="Accessories">Accessories</option>
+            <option value="Home Appliences">Home Appliences</option>
+            <option value="Footwear">Footwear</option>
+            <option value="Clothing">Clothing</option>
+            <option value="Education">Education</option>
+            <option value="Kitchen Items">Kitchen Items</option>
+            <option value="Other">Other</option>
+          </select>
+          <input type="number" id="quantity" placeholder="Quantity" required />
+          <button type="submit">Save</button>
+          <button type="button" onclick="closePopup()">Cancel</button>
+        </form>
+      </div>
+    </div>
+    <script>
+      let editId = null;
+
+      function loadProducts() {
+        fetch("/products")
+          .then((res) => res.json())
+          .then((data) => {
+            const tbody = document.querySelector("tbody");
+            tbody.innerHTML = "";
+
+            data.forEach((product) => {
+              const row = document.createElement("tr");
+
+              row.innerHTML = `
+          <td>${product.product_name}</td>
+          <td>${product.product_desc}</td>
+          <td>${product.product_cost}</td>
+          <td>${product.product_category}</td>
+          <td>${product.quantity_available}</td>
+          <td>
+            <button onclick="openEdit(
+              ${product.product_id},
+              '${product.product_name.replace(/'/g, "\\'")}',
+              '${product.product_desc.replace(/'/g, "\\'")}',
+              '${product.product_cost}',
+              '${product.product_category.replace(/'/g, "\\'")}',
+              '${product.quantity_available}'
+            )">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+
+            <button class="delbutton" onclick="deleteProduct(${product.product_id})">
+              <i class="bi bi-trash3"></i>
+            </button>
+          </td>
+        `;
+
+              tbody.appendChild(row);
+            });
+          });
+      }
+
+      function deleteProduct(id) {
+        if (!confirm("Delete this product?")) return;
+
+        fetch(`/product/${id}`, { method: "DELETE" }).then(() => {
+          alert("Deleted!");
+          loadProducts();
+        });
+      }
+
+      function openAdd() {
+        editId = null;
+        document.getElementById("popupTitle").innerText = "Add Product";
+        document.getElementById("productForm").reset();
+        document.getElementById("popup").style.display = "block";
+      }
+
+      function openEdit(id, name, desc, cost, category, quantity) {
+        editId = id;
+        document.getElementById("popupTitle").innerText = "Product Details";
+        document.getElementById("name").value = name;
+        document.getElementById("desc").value = desc;
+        document.getElementById("cost").value = cost;
+        document.getElementById("category").value = category;
+        document.getElementById("quantity").value = quantity;
+        document.getElementById("popup").style.display = "block";
+      }
+
+      function closePopup() {
+        document.getElementById("popup").style.display = "none";
+      }
+
+      document
+        .getElementById("productForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const data = {
+            product_name: document.getElementById("name").value,
+            product_desc: document.getElementById("desc").value,
+            product_cost: document.getElementById("cost").value,
+            product_category: document.getElementById("category").value,
+            quantity_available: document.getElementById("quantity").value,
+          };
+
+          if (editId === null) {
+            fetch("/products", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(data),
+            }).then(() => {
+              alert("Added!");
+              closePopup();
+              loadProducts();
+            });
+          } else {
+            fetch(`/product/${editId}`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(data),
+            }).then(() => {
+              alert("Updated!");
+              closePopup();
+              loadProducts();
+            });
+          }
+        });
+
+      window.onload = loadProducts;
+    </script>
+    <script>
+      function filterProducts() {
+        const category = document.getElementById("categoryFilter").value;
+
+        if (category === "all") {
+          loadProducts();
+        } else {
+          fetch(`/products/category/${category}`)
+            .then((res) => res.json())
+            .then((data) => {
+              const tbody = document.querySelector("tbody");
+              tbody.innerHTML = "";
+
+              data.forEach((product) => {
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+          <td>${product.product_name}</td>
+          <td>${product.product_desc}</td>
+          <td>${product.product_cost}</td>
+          <td>${product.product_category}</td>
+          <td>${product.quantity_available}</td>
+          <td>
+            <button onclick="openEdit(
+              ${product.product_id},
+              '${product.product_name.replace(/'/g, "\\'")}',
+              '${product.product_desc.replace(/'/g, "\\'")}',
+              '${product.product_cost}',
+              '${product.product_category.replace(/'/g, "\\'")}',
+              '${product.quantity_available}'
+            )">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+
+            <button class="delbutton" onclick="deleteProduct(${product.product_id})">
+              <i class="bi bi-trash3"></i>
+            </button>
+          </td>
+        `;
+
+                tbody.appendChild(row);
+              });
+            });
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Details</title>
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family:
+          "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+        background-color: #f4f6f8;
+      }
+
+      .detail_form {
+        max-width: 600px;
+        margin: 60px auto;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .head {
+        padding: 15px;
+        background-color: #1a237e;
+        color: white;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+      }
+
+      .head h1 {
+        margin: 0;
+        font-size: 22px;
+      }
+
+      form {
+        padding: 20px;
+      }
+
+      label {
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      input,
+      textarea {
+        width: 95%;
+        padding: 8px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 60px;
+      }
+
+      .form-group {
+        margin-bottom: 18px;
+      }
+
+      .btn {
+        background-color: #1a237e;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        background-color: #303f9f;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="detail_form">
+      <div class="head">
+        <h1>Product Detail</h1>
+      </div>
+
+      <form action="/product/{{ product.Product_id }}" method="POST">
+        <div class="form-group">
+          <label for="name">Product Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Product Name..."
+            required
+            value="{{ product.Product_name }}"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea id="description" name="description" required>
+{{ product.Product_desc }}</textarea
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="category">Category</label>
+          <input
+            type="text"
+            id="category"
+            name="category"
+            placeholder="Category..."
+            value="{{product.Product_catagory}}"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="price">Price</label>
+          <input
+            type="number"
+            id="price"
+            name="price"
+            placeholder="Price..."
+            value="{{product.Product_cost}}"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="quantity">Quantity</label>
+          <input
+            type="number"
+            id="quantity"
+            name="quantity"
+            placeholder="Quantity..."
+            value="{{product.Quantity_available}}"
+          />
+        </div>
+
+        <button type="submit" class="btn">Save Changes</button>
+      </form>
+    </div>
+  </body>
+</html>

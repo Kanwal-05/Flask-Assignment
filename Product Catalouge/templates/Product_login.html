@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Catalogue - Login / Sign Up</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(to right, #b4bbd1, #f4f7ff, #b4bbd1);
+      }
+
+      .container {
+        background: white;
+        width: 400px;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        text-align: center;
+      }
+
+      .heading h1 {
+        font-size: 29px;
+        margin-bottom: 20px;
+        color: #1a237e;
+      }
+
+      .heading h3 {
+        font-weight: 500;
+        color: #1a237e;
+        margin-bottom: 5px;
+      }
+
+      .form {
+        display: none;
+      }
+
+      .form.active {
+        display: block;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        outline: none;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 8px;
+        background: #66a6ff;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #4e8df5;
+      }
+
+      .switch {
+        margin-top: 15px;
+        font-size: 14px;
+      }
+
+      .switch span {
+        color: #66a6ff;
+        cursor: pointer;
+        font-weight: 500;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="heading">
+        <h3>Welcome To</h3>
+        <h1>PRODUCT CATALOGUE</h1>
+      </div>
+
+      <div class="form active" id="loginForm">
+        <h2>Login</h2>
+        <input type="email" placeholder="Email" id="mail" />
+        <input type="password" placeholder="Password" id="password" />
+        <button onclick="login()">Login</button>
+
+        <div class="switch">
+          Don't have an account?
+          <span onclick="showSignup()">Sign Up</span>
+        </div>
+      </div>
+      <div class="form" id="signupForm">
+        <h2>Sign Up</h2>
+        <input type="text" placeholder="Full Name" id="signup_name" />
+        <input type="email" placeholder="Email" id="signup_email" />
+        <input type="password" placeholder="Password" id="signup_password" />
+        <button onclick="signup()">Create Account</button>
+
+        <div class="switch">
+          Already have an account?
+          <span onclick="showLogin()">Login</span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function showSignup() {
+        document.getElementById("loginForm").classList.remove("active");
+        document.getElementById("signupForm").classList.add("active");
+      }
+
+      function showLogin() {
+        document.getElementById("signupForm").classList.remove("active");
+        document.getElementById("loginForm").classList.add("active");
+      }
+    </script>
+    <script>
+      function login() {
+        let mail = document.getElementById("mail").value;
+        let password = document.getElementById("password").value;
+
+        fetch("/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user_email: mail,
+            user_password: password,
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.message === "Login successful") {
+              window.location.href = "/catalogue";
+            } else {
+              alert("Invalid Email Or Password");
+            }
+          });
+      }
+
+      function signup() {
+        let name = document.getElementById("signup_name").value;
+        let email = document.getElementById("signup_email").value;
+        let password = document.getElementById("signup_password").value;
+
+        fetch("/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user_name: name,
+            user_email: email,
+            user_password: password,
+          }),
+        })
+          .then((res) => {
+            return res.json().then((data) => ({
+              status: res.status,
+              body: data,
+            }));
+          })
+          .then((result) => {
+            if (result.status === 201) {
+              alert("Account created successfully!");
+              showLogin();
+            } else {
+              alert(result.body.message || result.body.error);
+            }
+          })
+          .catch((error) => {
+            alert("Something went wrong!");
+            console.log(error);
+          });
+      }
+    </script>
+  </body>
+</html>
